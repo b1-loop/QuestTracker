@@ -21,9 +21,9 @@ namespace QuestTracker
             var title = Console.ReadLine();
 
 
-            var description = CreateAIDescription(title).Result;
-            //Console.WriteLine("Enter quest description:");
-            //var discription = Console.ReadLine();
+           // var description = CreateAIDescription(title).Result;
+            Console.WriteLine("Enter quest description:");
+            var discription = Console.ReadLine();
 
             Console.WriteLine("Enter amount of days to complete the quest");
             int dueDateInput = Convert.ToInt32(Console.ReadLine());
@@ -40,7 +40,7 @@ namespace QuestTracker
             Quest app = new Quest
             {
                 Title = title,
-                Description = description,
+                Description = discription,
                 DueDate = dueDate,
                 Priority = (Priority)(priorityInput - 1),
                 IsCompleted = isCompleted,
