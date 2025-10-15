@@ -3,45 +3,21 @@ using Twilio;
 using Twilio.Rest.Api.V2010.Account;
 using Twilio.Types;
 
-namespace QuestTracker
+namespace QuestTracker;
+
+internal class Program
 {
-    internal class Program
+    static void Main(string[] args)
     {
-        static void Main(string[] args)
+        var superMario = new Hero
         {
-            var config = new ConfigurationBuilder()
-                .AddUserSecrets<Program>()  // reads from your user secrets
-                .Build();
+            Username = "SuperMario",
+            Password = "Abcd1234!?",
+            Phone = "+46701234567",
+        };
 
-            var accountSid = config["Twilio:ACCOUNT_SID"];
-            var authToken = config["Twilio:AUTH_TOKEN"];
-            var fromNumber = config["Twilio:FROM_NUMBER"];
-            var toNumber = config["Twilio:TO_NUMBER"];
-
-
-            if (string.IsNullOrEmpty(accountSid) || string.IsNullOrEmpty(authToken))
-            {
-                Console.WriteLine("Twilio credentials are missing.");
-                return;
-            }
-
-            if (string.IsNullOrEmpty(fromNumber) || string.IsNullOrEmpty(toNumber))
-            {
-                Console.WriteLine("Twilio phone numbers are missing.");
-                return;
-            }
-
-            TwilioClient.Init(accountSid, authToken);
-
-            var from = new PhoneNumber(fromNumber);
-            var to = new PhoneNumber(toNumber);
-            var code = new Random().Next(100000, 999999).ToString();
-            var message = MessageResource.Create(
-                to: to,
-                from: from,
-                body: $"Hello from my C# console app 👋 here is your code sir: {code}"
-            );
-            Console.WriteLine($"Message sent with SID: {message.Sid}");
-        }
+        superMario.Login(Console.ReadLine(), Console.ReadLine());
     }
 }
+
+
