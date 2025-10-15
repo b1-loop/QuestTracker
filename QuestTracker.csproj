@@ -5,9 +5,12 @@
     <TargetFramework>net8.0</TargetFramework>
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
+    <UserSecretsId>51a5d68e-ce01-4d5d-bbe3-194504713400</UserSecretsId>
+    <StartupObject>QuestTracker.Program</StartupObject>
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="Microsoft.Extensions.Configuration.UserSecrets" Version="6.0.1" />
     <PackageReference Include="Twilio" Version="7.13.4" />
   </ItemGroup>
 

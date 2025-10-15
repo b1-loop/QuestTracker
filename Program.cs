@@ -1,4 +1,5 @@
-﻿using Twilio;
+﻿using Microsoft.Extensions.Configuration;
+using Twilio;
 using Twilio.Rest.Api.V2010.Account;
 using Twilio.Types;
 
@@ -8,10 +9,15 @@ namespace QuestTracker
     {
         static void Main(string[] args)
         {
-            var accountSid = Environment.GetEnvironmentVariable("TWILIO_ACCOUNT_SID");
-            var authToken = Environment.GetEnvironmentVariable("TWILIO_AUTH_TOKEN");
-            var fromNumber = Environment.GetEnvironmentVariable("TWILIO_FROM_NUMBER");
-            var toNumber = Environment.GetEnvironmentVariable("TWILIO_TO_NUMBER");
+            var config = new ConfigurationBuilder()
+                .AddUserSecrets<Program>()  // reads from your user secrets
+                .Build();
+
+            var accountSid = config["Twilio:ACCOUNT_SID"];
+            var authToken = config["Twilio:AUTH_TOKEN"];
+            var fromNumber = config["Twilio:FROM_NUMBER"];
+            var toNumber = config["Twilio:TO_NUMBER"];
+
 
             if (string.IsNullOrEmpty(accountSid) || string.IsNullOrEmpty(authToken))
             {
