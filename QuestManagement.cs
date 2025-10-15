@@ -1,8 +1,12 @@
-﻿using System;
+﻿using Microsoft.Extensions.Configuration;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Twilio;
+using Twilio.Rest.Api.V2010.Account;
+using Twilio.Types;
 
 namespace QuestTracker
 {
@@ -144,8 +148,44 @@ namespace QuestTracker
                     Console.ResetColor();
                     break;
             }
-
-
         }
+
+        public void NotifySoonOverdueQuests()
+        {
+            var overdueQuests = quests.Where(q => !q.IsCompleted && DateTime.Now.AddHours(24) > q.DueDate).ToList();
+            if (overdueQuests.Count == 0)
+            {
+                Console.WriteLine("No overdue quests.");
+                return;
+            }
+            Console.WriteLine("Overdue Quests:");
+            NotifyHero(overdueQuests);
+        }
+
+        public void NotifyHero(List<Quest> quests) 
+        {
+                var config = new ConfigurationBuilder()
+                                .AddUserSecrets<Program>()  // reads from your user secrets
+                                .Build();
+
+                var accountSid = config["Twilio:ACCOUNT_SID"];
+                var authToken = config["Twilio:AUTH_TOKEN"];
+                var fromNumber = config["Twilio:FROM_NUMBER"];
+                var toNumber = config["Twilio:TO_NUMBER"];
+
+                TwilioClient.Init(accountSid, authToken);
+
+                var from = new PhoneNumber(fromNumber);
+                var to = new PhoneNumber(toNumber);
+
+                var body = "The following quests are overdue or due within 24 hours:\n" +
+                           string.Join("\n", quests.Select(q => $"- {q.Title} (Due: {q.DueDate})"));
+            var message = MessageResource.Create(
+                    to: to,
+                    from: from,
+                    body: body
+
+                );                
+            }
     }
 }
