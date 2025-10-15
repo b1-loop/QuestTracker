@@ -4,6 +4,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using OpenAI;
+using OpenAI.Chat;
 using Twilio;
 using Twilio.Rest.Api.V2010.Account;
 using Twilio.Types;
@@ -18,8 +20,10 @@ namespace QuestTracker
             Console.WriteLine("Enter quest title:");
             var title = Console.ReadLine();
 
-            Console.WriteLine("Enter quest description:");
-            var discription = Console.ReadLine();
+
+            var description = CreateAIDescription(title).Result;
+            //Console.WriteLine("Enter quest description:");
+            //var discription = Console.ReadLine();
 
             Console.WriteLine("Enter amount of days to complete the quest");
             int dueDateInput = Convert.ToInt32(Console.ReadLine());
@@ -36,7 +40,7 @@ namespace QuestTracker
             Quest app = new Quest
             {
                 Title = title,
-                Description = discription,
+                Description = description,
                 DueDate = dueDate,
                 Priority = (Priority)(priorityInput - 1),
                 IsCompleted = isCompleted,
@@ -44,6 +48,27 @@ namespace QuestTracker
 
             quests.Add(app);
             Console.WriteLine("Task added!");
+        }
+
+        private async Task<string> CreateAIDescription(string? title)
+        {
+
+            var config = new ConfigurationBuilder()
+                .AddUserSecrets<Program>()
+                .Build();
+            var apiKey = config["OpenAI:API_KEY"];
+
+            var client = new ChatClient("gpt-4o-mini", apiKey);
+            var prompt = $"Du är en storyteller för mitt fantasispel, ge mig en beskrivning för följande quest med titel: {title}. ge mig endast beskrivningen i form av en sträng inget annat!";
+
+            // 🚀 Skicka prompten och hämta svar
+            ChatCompletion response = await client.CompleteChatAsync(new[]
+            {
+                new UserChatMessage(prompt)
+            });
+            Console.WriteLine(response.Content[0].Text);
+            return response.Content[0].Text.ToString();
+
         }
 
         private string GetQuestStatus(Quest quest)
