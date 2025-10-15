@@ -41,6 +41,7 @@ namespace QuestTracker
                 from: from,
                 body: $"Hello from my C# console app 👋 here is your code sir: {code}"
             );
+            Console.WriteLine($"Message sent with SID: {message.Sid}");
         }
     }
 }
