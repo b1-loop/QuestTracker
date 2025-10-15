@@ -1,0 +1,151 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace QuestTracker
+{
+    public class QuestManagement
+    {
+        public List<Quest> quests = new List<Quest>();
+        public void AddQuest()
+        {
+            Console.WriteLine("Enter quest title:");
+            var title = Console.ReadLine();
+
+            Console.WriteLine("Enter quest description:");
+            var discription = Console.ReadLine();
+
+            Console.WriteLine("Enter amount of days to complete the quest");
+            int dueDateInput = Convert.ToInt32(Console.ReadLine());
+            DateTime dueDate = DateTime.Now.AddDays(dueDateInput);
+
+            Console.WriteLine("Enter quest priority (1=High, 2=Medium,3=Low):");
+            var priorityInput = Convert.ToInt32(Console.ReadLine());
+            Priority priority;
+
+            Console.WriteLine("Has the task been completed? (1=Yes, 0=No):");
+            var isCompletedInput = Convert.ToInt32(Console.ReadLine());
+            bool isCompleted = isCompletedInput == 1;
+
+            Quest app = new Quest
+            {
+                Title = title,
+                Description = discription,
+                DueDate = dueDate,
+                Priority = (Priority)(priorityInput - 1),
+                IsCompleted = isCompleted,
+            };
+
+            quests.Add(app);
+            Console.WriteLine("Task added!");
+        }
+
+        private string GetQuestStatus(Quest quest)
+        {
+            if (quest.IsCompleted)
+                return "Completed";
+            else if (DateTime.Now > quest.DueDate)
+                return "Overdue";
+            else
+                return "Active";
+        }
+
+        // Replace SetStatusColor(a.Status) with SetStatusColor(GetQuestStatus(a))
+        public void ShowAllQuests()
+        {
+            if (quests.Count == 0)
+            {
+                Console.WriteLine("No quest yet.");
+                return;
+            }
+            var sorted = quests.OrderBy(a => a.DueDate);
+
+            foreach (var a in sorted)
+            {
+                SetStatusColor(GetQuestStatus(a)); // fixed: use derived status
+                Console.WriteLine(a.GetSummary());
+            }
+
+            foreach (var a in sorted)
+            {
+                SetStatusColor(GetQuestStatus(a)); // fixed: use derived status
+                Console.WriteLine(a.GetSummary());
+                Console.WriteLine($"{a.GetDaysSinceApplied()} days have passed since application.");
+            }
+
+            Console.ResetColor(); //återställ färg till default 
+        }
+
+       public void UpdateQuest() 
+        {
+         Console.WriteLine("Enter the title of the quest to update:");
+            var title = Console.ReadLine();
+            var quest = quests.FirstOrDefault(q => q.Title.Equals(title, StringComparison.OrdinalIgnoreCase));
+            if (quest != null)
+            {
+                Console.WriteLine("Enter new description (leave blank to keep current):");
+                var newDescription = Console.ReadLine();
+                if (!string.IsNullOrEmpty(newDescription))
+                {
+                    quest.Description = newDescription;
+                }
+                Console.WriteLine("Enter new due date in days from now (leave blank to keep current):");
+                var dueDateInput = Console.ReadLine();
+                if (int.TryParse(dueDateInput, out int days))
+                {
+                    quest.DueDate = DateTime.Now.AddDays(days);
+                }
+                Console.WriteLine("Enter new priority (1=High, 2=Medium, 3=Low) (leave blank to keep current):");
+                var priorityInput = Console.ReadLine();
+                if (int.TryParse(priorityInput, out int priority) && priority >= 1 && priority <= 3)
+                {
+                    quest.Priority = (Priority)(priority - 1);
+                }
+                Console.WriteLine("Quest updated.");
+            }
+            else
+            {
+                Console.WriteLine($"Quest '{title}' not found.");
+            }
+        }
+
+        public void CompleteQuest()
+        {
+            Console.WriteLine("Enter the title of the quest to mark as completed:");
+            var title = Console.ReadLine();
+            var quest = quests.FirstOrDefault(q => q.Title.Equals(title, StringComparison.OrdinalIgnoreCase));
+            if (quest != null)
+            {
+                quest.IsCompleted = true;
+                Console.WriteLine($"Quest '{title}' marked as completed.");
+            }
+            else
+            {
+                Console.WriteLine($"Quest '{title}' not found.");
+            }
+        }
+
+        private void SetStatusColor(string status)
+        {
+            switch (status)
+            {
+                case "Completed":
+                    Console.ForegroundColor = ConsoleColor.Green;
+                    break;
+                case "Active":
+                    Console.ForegroundColor = ConsoleColor.Yellow;
+                    break;
+                case "Overdue":
+                    Console.ForegroundColor = ConsoleColor.Red;
+                    break;
+                default:
+                    Console.ResetColor();
+                    break;
+            }
+
+
+        }
+    }
+}
