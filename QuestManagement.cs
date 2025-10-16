@@ -222,6 +222,7 @@ namespace QuestTracker
 
             // Uppdatera quest
             quest.Description = newDescription;
+            //cc
 
             Console.WriteLine("Enter new due date in days from now (leave blank to keep current):");
             var dueInput = Console.ReadLine();
