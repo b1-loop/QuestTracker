@@ -22,7 +22,7 @@ namespace QuestTracker
             //var title = Console.ReadLine();
 
 
-            // var description = CreateAIDescription(title).Result;
+             //var description = CreateAIDescription(title).Result;
 
             string[] titles = 
             {
@@ -126,12 +126,6 @@ namespace QuestTracker
             {
                 SetStatusColor(GetQuestStatus(a)); // fixed: use derived status
                 Console.WriteLine(a.GetSummary());
-            }
-
-            foreach (var a in sorted)
-            {
-                SetStatusColor(GetQuestStatus(a)); // fixed: use derived status
-                Console.WriteLine(a.GetSummary());
                 Console.WriteLine($"{a.GetDaysSinceApplied()} days have passed since application.");
             }
 
@@ -213,7 +207,7 @@ namespace QuestTracker
                     _ => "A mysterious new challenge emerges from the fog of destiny..."
                 };
 
-                Console.WriteLine($"✨ Auto-generated description: {newDescription}");
+                Console.WriteLine($"Auto-generated description: {newDescription}");
             }
             else
             {
@@ -234,7 +228,7 @@ namespace QuestTracker
             if (int.TryParse(prioInput, out int prio) && prio >= 1 && prio <= 3)
                 quest.Priority = (Priority)(prio - 1);
 
-            Console.WriteLine("\n✅ Quest updated!");
+            Console.WriteLine("\n Quest updated!");
 
             //Console.WriteLine("Enter the title of the quest to update:");
             //var title = Console.ReadLine();

@@ -1,4 +1,5 @@
 ﻿using Microsoft.Extensions.Configuration;
+using System.Text.Json;
 using Twilio;
 using Twilio.Rest.Api.V2010.Account;
 using Twilio.Types;
@@ -12,7 +13,6 @@ internal class Program
         QuestManagement questManagement = new QuestManagement();
         Hero newHero = new Hero();
         bool isLoggedIn = false;
-
         
         while (true)
         {
@@ -24,19 +24,24 @@ internal class Program
                 {
                     case "1":
                         questManagement.AddQuest();
+                        Console.Beep();
                         break;
                     case "2":
                         questManagement.ShowAllQuests();
+                        Console.Beep();
                         break;
                     case "3":
                         questManagement.UpdateQuest();
+                        Console.Beep();
                         break;
 
                     case "4":
                         questManagement.CompleteQuest();
+                        Console.Beep();
                         break;
                     case "5":
                         questManagement.NotifySoonOverdueQuests();
+                        Console.Beep();
                         break;
                     case "6":
                         isLoggedIn = false;
@@ -65,6 +70,7 @@ internal class Program
                         Console.WriteLine("Enter email (optional):");
                         var email = Console.ReadLine();
                         Console.WriteLine("Registration successful. Please log in.");
+                        Console.Beep();
                         newHero.Register(username, password, phone, email);
                         break;
                     case "2":
@@ -75,6 +81,7 @@ internal class Program
                         var loginPassword = Console.ReadLine();
                         var ok = newHero.Login(loginUsername, loginPassword);
                         if (ok) isLoggedIn = true;
+                        Console.Beep();
                         break;
                     case "3":
                         return;
