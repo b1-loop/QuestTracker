@@ -12,40 +12,40 @@ namespace QuestTracker
         public List<Quest> quests = new List<Quest>();
         public void AddQuest()
         {
-            //Console.WriteLine("Enter quest title:"); eftersom chat kostatde för göra min egna chattGPT
-            //var title = Console.ReadLine();
+            Console.WriteLine("Enter quest title:"); //eftersom chat kostatde för göra min egna chattGPT
+            var title = Console.ReadLine();
 
 
-             //var description = CreateAIDescription(title).Result;
+             var description = CreateAIDescription(title).Result;
 
-            string[] titles = 
-            {
-            "1.Slay the Coffee Dragon ",
-            "2.Find the Missing Wi-Fi Signal ",
-            "3.Save the Kingdom of Deadlines ",
-            "4.Rescue the Lost USB of Power ",
-            "5.Defeat the Monday Boss "
-            };
+            //string[] titles = 
+            //{
+            //"1.Slay the Coffee Dragon ",
+            //"2.Find the Missing Wi-Fi Signal ",
+            //"3.Save the Kingdom of Deadlines ",
+            //"4.Rescue the Lost USB of Power ",
+            //"5.Defeat the Monday Boss "
+            //};
 
-            for (int i = 0; i < titles.Length; i++)
-            {
-                Console.WriteLine($"{i + 1}. {titles[i]}");
-            }
+            //for (int i = 0; i < titles.Length; i++)
+            //{
+            //    Console.WriteLine($"{i + 1}. {titles[i]}");
+            //}
 
-            Console.Write("Enter your choice (1-5): ");
-            int choice = Convert.ToInt32(Console.ReadLine());
-            string title = titles[Math.Clamp(choice - 1, 0, titles.Length - 1)];
+            //Console.Write("Enter your choice (1-5): ");
+            //int choice = Convert.ToInt32(Console.ReadLine());
+            //string title = titles[Math.Clamp(choice - 1, 0, titles.Length - 1)];
 
             // Skapa en rolig beskrivning beroende på titeln
-            string description = title switch
-            {
-                "1.Slay the Coffee Dragon " => "A mighty beast made of caffeine threatens your productivity. Only one brave soul can brew victory!",
-                "2.Find the Missing Wi-Fi Signal " => "Somewhere in the dark corners of your home, the sacred connection has vanished. Search, hero!",
-                "3.Save the Kingdom of Deadlines " => "The kingdom trembles under procrastination. You must restore order before the time runs out!",
-                "4.Rescue the Lost USB of Power " => "Legends speak of a tiny relic holding ancient files. Find it before your boss notices it's gone!",
-                "5.Defeat the Monday Boss " => "It rises every week without fail. Gather your strength, face the beast, and survive until Friday!",
-                _ => "An unknown quest awaits you in the shadows..."
-            };
+            //string description = title switch
+            //{
+            //    "1.Slay the Coffee Dragon " => "A mighty beast made of caffeine threatens your productivity. Only one brave soul can brew victory!",
+            //    "2.Find the Missing Wi-Fi Signal " => "Somewhere in the dark corners of your home, the sacred connection has vanished. Search, hero!",
+            //    "3.Save the Kingdom of Deadlines " => "The kingdom trembles under procrastination. You must restore order before the time runs out!",
+            //    "4.Rescue the Lost USB of Power " => "Legends speak of a tiny relic holding ancient files. Find it before your boss notices it's gone!",
+            //    "5.Defeat the Monday Boss " => "It rises every week without fail. Gather your strength, face the beast, and survive until Friday!",
+            //    _ => "An unknown quest awaits you in the shadows..."
+            //};
 
             //Console.WriteLine("Enter quest description:");
             //var discription = Console.ReadLine();
